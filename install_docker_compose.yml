@@ -1,7 +1,28 @@
-- hosts: localhost
-  connection: local
-  gather_facts: yes
-  become: false
-  roles:
-    - role: opsta.docker_compose
-  environment: "{{ proxy_env | default({}) }}"
+version: "2"
+services:
+  base:
+    build: ./base/
+    image: ansible_base
+  master:
+    links:
+      - base
+    build: ./master/
+    image: ansible_master
+    container_name: master
+    hostname: master
+    command: ["/usr/sbin/sshd","-D"]
+    volumes:
+      - ansible_vol:/var/ans
+  host:
+    links:
+      - base
+      - master
+    build: ./host/
+    image: ansible_host
+    container_name: host
+    hostname: host
+    command: ["/var/run.sh"]
+    volumes:
+     - ansible_vol:/var/ans
+volumes:
+  ansible_vol:
