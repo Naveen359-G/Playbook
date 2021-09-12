@@ -1,0 +1,11 @@
+---
+
+# docker.yml
+
+- name: Example
+  hosts: "all"
+  become: true
+
+  roles:
+    - role: "Naveen359-G.docker"
+      tags: ["docker"]
