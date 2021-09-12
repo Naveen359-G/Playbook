@@ -7,5 +7,5 @@
   gather_facts: yes
   serial: 1
   roles:
-    - role: opsta.automated_docker
+    - role: Naveen359-G.automated_docker
   environment: "{{ proxy_env | default({}) }}"
